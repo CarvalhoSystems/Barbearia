@@ -1,0 +1,223 @@
+/*
+=====================================================
+css/login.css
+Estilos da Página de Login
+=====================================================
+*/
+
+/*
+====================================
+1. LAYOUT E TEMA DA PÁGINA
+====================================
+*/
+body {
+  background-color: var(--background-dark, #1a2a3a);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  color: var(--background-light, #f8f9fa);
+  font-family: "Georgia", serif; /* Alinha com a fonte principal */
+}
+
+/* 
+====================================
+2. CAIXA DE LOGIN (LOGIN BOX)
+====================================
+*/
+.container {
+  position: relative;
+  width: 450px;
+  height: 450px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-box {
+  position: relative;
+  width: 380px;
+  padding: 40px;
+  background-color: rgba(0, 0, 0, 0.2); /* Fundo semi-transparente */
+  border: 1px solid var(--accent-color, #a4854f); /* Borda dourada */
+  border-radius: 10px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  backdrop-filter: blur(5px); /* Efeito de vidro fosco */
+}
+
+.login-box h2 {
+  font-size: 2em;
+  color: var(--accent-color, #a4854f);
+  font-weight: 400;
+  margin-bottom: 30px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/*
+====================================
+3. INPUTS E LABELS
+====================================
+*/
+.input-box {
+  position: relative;
+  width: 100%;
+  margin-bottom: 30px; /* Aumenta o espaçamento */
+}
+
+.input-box input {
+  width: 100%;
+  padding: 15px 0 10px; /* Aumenta o padding superior e adiciona padding inferior */
+  font-size: 1em;
+  color: var(--background-light, #f8f9fa);
+  letter-spacing: 0.05em;
+  position: relative; /* Garante que o input tenha seu próprio contexto de empilhamento */
+  position: relative; /* Garante que o input tenha seu próprio contexto de empilhamento */
+  border: none;
+  border-bottom: 1px solid var(--secondary-color, #6c757d);
+  outline: none;
+  background: transparent;
+}
+
+/*
+====================================
+3.1. Correção para Autopreenchimento (Autofill)
+====================================
+*/
+.input-box input:-webkit-autofill,
+.input-box input:-webkit-autofill:hover,
+input-box input:-webkit-autofill:focus,
+.input-box input:-webkit-autofill:active {
+  -webkit-text-fill-color: var(
+    --background-transparent,
+    #1a2a3a
+  ) !important; /* Força a cor do texto a ser branca */
+  -webkit-box-shadow: 0 0 0 0px var(--background-dark, #1a2a3a) inset !important; /* Força o fundo a ser o do seu tema */
+  background-clip: content-box !important; /* Garante que o fundo não obreponha a borda */
+  border-bottom-color: var(
+    --secondary-color,
+    #6c757d
+  ); /* Mantém a cor da borda inferior */
+  caret-color: var(--secondary-color, #6c757d); /* Cor do cursor de digitação */
+  transition: border-color 0.3s;
+}
+.input-box input:-webkit-autofill ~ label, /* Move o label quando o campo é preenchido automaticamente */
+.input-box input:focus {
+  border-bottom-color: var(--accent-color, #a4854f); /* Destaque dourado */
+}
+
+.input-box label {
+  position: absolute;
+  top: 0;
+  left: 0; /* Alinha o label com o input */
+  padding: 10px 0;
+  font-size: 1em;
+  color: var(--secondary-color, #6c757d);
+  pointer-events: none;
+  transition: 0.5s;
+}
+
+.input-box input:valid ~ label,
+.input-box input:-webkit-autofill ~ label, /* Move o label quando o campo é preenchido automaticamente */
+.input-box input:focus ~ label {
+  top: -25px;
+  font-size: 0.8em;
+  color: var(--accent-color, #a4854f);
+}
+
+/*
+====================================
+4. BOTÃO E LINKS
+====================================
+*/
+.btn {
+  width: 100%;
+  padding: 12px;
+  background: var(--accent-color, #a4854f);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.1s;
+  margin-top: 30px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.btn:hover {
+  background: #bfa06b; /* Dourado mais claro no hover */
+  transform: translateY(-1px);
+}
+
+.options-container {
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85em;
+  margin: 20px 0 0 0; /* Adiciona margem no topo, após o botão */
+}
+.forgot-pass a,
+.signup-link a {
+  color: var(--secondary-color, #6c757d);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.forgot-pass a:hover,
+.signup-link a:hover {
+  color: var(--accent-color, #a4854f);
+}
+
+/*
+====================================
+5. ANIMAÇÃO DE FUNDO (PARTÍCULAS)
+====================================
+*/
+.container span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  background: var(--background-light, #f8f9fa);
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1),
+    0 0 0 8px rgba(255, 255, 255, 0.1), 0 0 20px rgba(255, 255, 255, 1);
+  z-index: 5;
+  animation: animateParticles 15s linear infinite;
+}
+
+.container span:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -150px;
+  width: 150px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--background-light, #f8f9fa)
+  );
+}
+
+@keyframes animateParticles {
+  0% {
+    transform: rotate(calc(360deg / 50 * var(--i))) translateY(-150px);
+    opacity: 1;
+  }
+  99% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(calc(360deg / 50 * var(--i))) translateY(-150px);
+    opacity: 0;
+  }
+}

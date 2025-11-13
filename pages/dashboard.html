@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - The Gentleman's Cut</title>
+
+    <!-- Estilos Globais e do Dashboard -->
+    <link rel="stylesheet" href="../css/principal.css" />
+    <link rel="stylesheet" href="../css/dashboard.css" />
+    <!--favicon-->
+    <link
+      rel="icon"
+      type="image/png"
+      href="/favicon/favicon-96x96.png"
+      sizes="96x96"
+    />
+    <link rel="icon" type="imagem/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="ícone do atalho" href="/favicon/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <!-- Ícones (Font Awesome) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Cabeçalho do Painel -->
+    <header class="dashboard-header">
+      <span id="user-greeting">Barbearia Admin</span>
+      <button id="logout-button" class="btn-sair">
+        <i class="fas fa-sign-out-alt"></i> Sair
+      </button>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main>
+      <section class="admin-container">
+        <h2 class="admin-title">📅 Agenda Semanal</h2>
+
+        <!-- Cartões de Resumo -->
+        <div class="summary-cards">
+          <div class="summary-card">
+            <i class="fas fa-calendar-day"></i>
+            <div class="card-info">
+              <h3 id="today-count">0</h3>
+              <p>Agendamentos Hoje</p>
+            </div>
+          </div>
+          <div class="summary-card">
+            <i class="fas fa-hourglass-half"></i>
+            <div class="card-info">
+              <h3 id="pending-count">0</h3>
+              <p>Pendentes</p>
+            </div>
+          </div>
+          <div class="summary-card">
+            <i class="fas fa-check-circle"></i>
+            <div class="card-info">
+              <h3 id="confirmed-count">0</h3>
+              <p>Confirmados</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabela de Agendamentos -->
+        <div class="appointments-table-container">
+          <table class="appointments-table">
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>Data/Hora</th>
+                <th>Serviço</th>
+                <th>Barbeiro</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="appointments-tbody">
+              <!-- Linhas da tabela serão inseridas aqui pelo JavaScript -->
+              <tr>
+                <td colspan="6" class="loading-row">
+                  Carregando agendamentos...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Alerta de Novo Agendamento -->
+        <div id="new-appointment-alert" class="floating-alert hidden">
+          <p><i class="fas fa-bell"></i> Novo Agendamento Recebido!</p>
+          <button id="view-alert-details">Visualizar</button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Modal para Detalhes do Agendamento -->
+    <div id="appointment-modal" class="modal-overlay hidden">
+      <div class="modal-content">
+        <button class="close-modal" id="close-modal">&times;</button>
+        <h3 class="modal-title">
+          <i class="fas fa-clock"></i> Detalhes do Agendamento
+        </h3>
+        <div id="modal-details-body" class="details-body">
+          <p>
+            <strong>Status:</strong>
+            <span id="detail-status" class="status-badge new">Novo</span>
+          </p>
+          <p>
+            <strong>Cliente:</strong>
+            <span id="detail-client"></span>
+          </p>
+          <p>
+            <strong>Telefone:</strong>
+            <span id="detail-phone"></span>
+          </p>
+          <hr />
+          <p>
+            <strong>Barbeiro:</strong>
+            <span id="detail-barber"></span>
+          </p>
+          <p>
+            <strong>Serviço:</strong>
+            <span id="detail-service"></span>
+          </p>
+          <p>
+            <strong>Data/Hora:</strong>
+            <span id="detail-datetime"></span>
+          </p>
+        </div>
+        <div class="modal-actions">
+          <button id="confirm-appointment" class="btn-confirm">
+            <i class="fas fa-check"></i> Confirmar
+          </button>
+          <button id="reject-appointment" class="btn-reject">
+            <i class="fas fa-times"></i> Rejeitar
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Scripts do Firebase (DEVEM VIR ANTES DO firebaseconfig.js) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/firebaseconfig.js"></script>
+    <script src="/js/dashboard.js"></script>
+  </body>
+</html>

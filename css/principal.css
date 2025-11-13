@@ -1,0 +1,102 @@
+/*
+=====================================================
+css/principal.css
+Estilos Globais e Variáveis de Tema
+=====================================================
+*/
+
+/*
+====================================
+1. VARIÁVEIS DE COR (TEMA)
+====================================
+*/
+:root {
+  /* Paleta de cores focada em um estilo clássico e premium */
+  --primary-color: #1a2a3a; /* Azul Marinho / Quase Preto (Fundo e Títulos) */
+  --secondary-color: #6c757d; /* Cinza Sutil (Textos secundários) */
+  --accent-color: #a4854f; /* Dourado Suave (Botões e Destaques) */
+  --background-light: #f8f9fa; /* Fundo geral do Body */
+  --background-dark: #1a2a3a; /* Fundo do Cabeçalho */
+  --text-color: #212529; /* Cor principal do texto */
+  --border-color: #ced4da; /* Cor da borda padrão */
+  --success-color: #28a745; /* Verde para sucesso (Confirmação) */
+  --card-hover: #e9ecef; /* Cor de hover leve */
+}
+
+/*
+====================================
+2. RESET E TIPOGRAFIA GERAL
+====================================
+*/
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Georgia", serif; /* Fonte Clássica e elegante */
+}
+
+body {
+  background-color: var(--background-light);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+/*
+====================================
+3. ESTILOS PARA PÁGINAS INTERNAS (EX: AGENDAMENTO)
+====================================
+*/
+.public-header {
+  background-color: var(--background-dark);
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+.public-header h1 {
+  font-size: 1.8rem;
+  font-weight: 400;
+  letter-spacing: 2px; /* Espaçamento para elegância */
+  margin-top: 10px;
+}
+
+.header-logo {
+  max-height: 50px;
+  margin-bottom: 10px;
+}
+
+/*
+====================================
+4. ESTILO BASE DOS BOTÕES (PÁGINAS INTERNAS)
+====================================
+*/
+button {
+  cursor: pointer;
+  padding: 12px 25px; /* Botões maiores e mais elegantes */
+  border-radius: 5px;
+  border: none;
+  font-weight: 600;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+.btn-next-step,
+.btn-submit {
+  background-color: var(--accent-color);
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.btn-next-step:hover:not(:disabled),
+.btn-submit:hover:not(:disabled) {
+  background-color: #bfa06b; /* Dourado mais claro no hover */
+}
+
+.btn-prev-step {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+.btn-next-step:disabled,
+.btn-submit:disabled {
+  background-color: var(--secondary-color);
+  opacity: 0.7;
+  cursor: not-allowed;
+}

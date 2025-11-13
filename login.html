@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>adminstrador</title>
+    <link rel="stylesheet" href="/css/login.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!--Favicon-->
+
+    <link
+      rel="icon"
+      type="image/png"
+      href="./favicon/favicon-96x96.png"
+      sizes="96x96"
+    />
+    <link rel="icon" type="imagem/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="ícone do atalho" href="/favicon/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+    />
+  </head>
+  <body>
+    <!-- From Uiverse.io by shadyeljokers -->
+    <div class="container">
+      <div class="login-box">
+        <h2>Login</h2>
+        <form id="login-form">
+          <div class="input-box">
+            <input required="" type="email" id="user" />
+            <label>Email</label>
+          </div>
+          <div class="input-box">
+            <input required="" type="password" id="senha" />
+            <label>Password</label>
+          </div>
+          <button class="btn" type="submit">Login</button>
+          <div class="options-container">
+            <label class="lembrar-label">
+              <input type="checkbox" id="lembrar" /> Lembrar-me
+            </label>
+          </div>
+          <div
+            class="signup-link"
+            style="margin-top: 20px"
+            id="esqueci_a_senha"
+          >
+            <a href="#">Sign Up</a>
+          </div>
+        </form>
+        <div class="mensagem-login" id="mensagem_login"></div>
+      </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/firebaseconfig.js"></script>
+    <script src="/js/login.js"></script>
+  </body>
+</html>

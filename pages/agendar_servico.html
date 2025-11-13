@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agende seu Horário - The Gentleman's Cut</title>
+    <link rel="stylesheet" href="/css/principal.css" />
+    <link rel="stylesheet" href="/css/agendamento.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+    />
+
+    <!--Favicon-->
+
+    <link
+      rel="icon"
+      type="image/png"
+      href="./favicon/favicon-96x96.png"
+      sizes="96x96"
+    />
+    <link rel="icon" type="imagem/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="ícone do atalho" href="/favicon/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+    />
+  </head>
+
+  <header class="public-header">
+    <img
+      src="/image/logo.png"
+      alt="The Gentleman's Cut Logo"
+      class="header-logo"
+    />
+    <h1>Agendamento Online</h1>
+  </header>
+  <body>
+    <main class="agendamento-main">
+      <div class="agendamento-container">
+        <h2>
+          Passo <span id="current-step-number">1</span> de 3: Escolha seu
+          Serviço
+        </h2>
+
+        <form id="agendamento-form">
+          <fieldset class="step-agendamento active" data-step="1">
+            <h3>1. Serviço</h3>
+            <div id="servicos-list" class="service-options">
+              <p>Carregando serviços...</p>
+            </div>
+            <button type="button" class="btn-next-step" disabled>
+              Próximo
+            </button>
+          </fieldset>
+
+          <fieldset class="step-agendamento" data-step="2">
+            <h3>2. Barbeiro e Data</h3>
+
+            <div id="barbeiros-list" class="barber-options">
+              <p>Carregando barbeiros...</p>
+            </div>
+
+            <label for="data-agendamento">Escolha a Data:</label>
+            <input type="date" id="data-agendamento" required />
+
+            <div class="navigation-buttons">
+              <button type="button" class="btn-prev-step">Anterior</button>
+              <button type="button" class="btn-next-step" disabled>
+                Próximo
+              </button>
+            </div>
+          </fieldset>
+
+          <fieldset class="step-agendamento" data-step="3">
+            <h3>3. Horário e Detalhes</h3>
+
+            <div id="time-slots-container" class="time-slots">
+              <p>Selecione a data para ver os horários.</p>
+            </div>
+
+            <h4>Seus Dados</h4>
+            <label for="client-name">Seu Nome:</label>
+            <input
+              type="text"
+              id="client-name"
+              name="client-name"
+              placeholder="Nome Completo"
+              required
+            />
+
+            <label for="client-phone">WhatsApp:</label>
+            <input
+              type="tel"
+              id="client-phone"
+              name="client-phone"
+              placeholder="(99) 99999-9999"
+              required
+            />
+
+            <div class="navigation-buttons">
+              <button type="button" class="btn-prev-step">Anterior</button>
+              <button type="submit" class="btn-submit">
+                Confirmar Agendamento
+              </button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="/js/firebaseconfig.js"></script>
+
+    <script src="/js/agendamento.js"></script>
+  </body>
+</html>
