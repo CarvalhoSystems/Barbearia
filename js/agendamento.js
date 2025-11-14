@@ -372,12 +372,16 @@ document.addEventListener("DOMContentLoaded", () => {
   barbeirosList.addEventListener("change", (event) => {
     const input = event.target;
     if (input.name === "barber") {
+      // Busca os dados completos do barbeiro para salvar no estado
+      const barberData = JSON.parse(input.getAttribute("data-barber"));
+
       FORM_STATE.selectedBarber = {
         id: input.value,
-        name: input.parentElement
-          .querySelector("span")
-          .textContent.split(" ")[0],
+        name: barberData.name,
+        workingHoursStart: barberData.workingHoursStart,
+        workingHoursEnd: barberData.workingHoursEnd,
       };
+
       // Habilita o botão do passo 2 se a data também estiver selecionada
       if (FORM_STATE.selectedDate) {
         document.querySelector(

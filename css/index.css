@@ -621,3 +621,24 @@ footer {
   color: var(--accent-color);
   background-color: transparent;
 }
+
+/*
+====================================
+12. RESPONSIVIDADE (MOBILE)
+====================================
+*/
+@media (max-width: 768px) {
+  /* Ajustes no Carrossel para telas menores */
+  .carousel-content {
+    flex-direction: column; /* Empilha a imagem sobre o texto */
+  }
+
+  .carousel-img,
+  .carousel-text {
+    width: 100%; /* Fazem a imagem e o texto ocuparem toda a largura */
+  }
+
+  .carousel-img {
+    height: 250px; /* Reduz a altura da imagem para se adequar melhor à tela */
+  }
+}

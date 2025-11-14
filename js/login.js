@@ -96,16 +96,28 @@ formLogin.addEventListener("submit", function (event) {
 esqueciSenha.addEventListener("click", function (event) {
   event.preventDefault();
 
-  const usuarioPreenchido = usuarioEmail.value.trim() !== "";
+  const email = usuarioEmail.value.trim();
 
-  if (usuarioPreenchido) {
-    // TODO: Implementar a redefinição de senha do Firebase aqui.
-    // Por enquanto, a mensagem de manutenção é exibida.
-    mensagemArea.textContent = "Em manutenção !";
-    mensagemArea.style.color = "red";
+  if (email) {
+    auth
+      .sendPasswordResetEmail(email)
+      .then(() => {
+        Swal.fire({
+          title: "Verifique seu E-mail",
+          text: `Um link para redefinição de senha foi enviado para ${email}.`,
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+        mensagemArea.textContent = "";
+      })
+      .catch((error) => {
+        console.error("Erro ao enviar e-mail de redefinição:", error);
+        mensagemArea.textContent = "❌ E-mail não encontrado ou inválido.";
+        mensagemArea.style.color = "red";
+      });
   } else {
     // Pede para o usuário digitar o e-mail antes de clicar em "esqueci a senha"
-    mensagemArea.textContent = "Digite seu e-mail para redefinir a senha.";
-    mensagemArea.style.color = "red";
+    mensagemArea.textContent = "Digite seu e-mail no campo acima.";
+    mensagemArea.style.color = "yellow";
   }
 });
