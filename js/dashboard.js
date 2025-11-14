@@ -4,9 +4,25 @@ js/dashboard.js
 Lógica do Painel Administrativo
 =====================================================
 */
-
+/*
+==================================
+0. VERIFICAÇÃO DE AUTENTICAÇÃO
+==================================
+*/
+// Escuta por mudanças no estado de autenticação
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    // O usuário está logado, então inicializa o dashboard
+    console.log("Usuário autenticado, inicializando o dashboard.");
+    initializeDashboard();
+  } else {
+    // O usuário não está logado, redireciona para a página de login
+    console.log("Nenhum usuário autenticado, redirecionando para o login.");
+    window.location.href = "../login.html";
+  }
+});
 // Garante que o código só rode após o DOM estar carregado
-document.addEventListener("DOMContentLoaded", () => {
+function initializeDashboard() {
   /*
   ==================================
   1. REFERÊNCIAS DO DOM
@@ -16,6 +32,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const todayCountEl = document.getElementById("today-count");
   const pendingCountEl = document.getElementById("pending-count");
   const confirmedCountEl = document.getElementById("confirmed-count");
+
+  // Alerta de novo agendamento
+  const newAppointmentAlert = document.getElementById("new-appointment-alert");
+  const viewAlertDetailsBtn = document.getElementById("view-alert-details");
 
   // Referências do Modal (já existentes no HTML)
   const modal = document.getElementById("appointment-modal");
@@ -27,8 +47,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const detailBarber = document.getElementById("detail-barber");
   const detailService = document.getElementById("detail-service");
   const detailDatetime = document.getElementById("detail-datetime");
-  const confirmBtn = document.getElementById("confirm-appointment");
-  const rejectBtn = document.getElementById("reject-appointment");
+  // Removido pois não existem no HTML fornecido
+  const deleteBtn = document.getElementById("delete-button");
 
   /*
   ==================================
@@ -39,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let servicesMap = {}; // Cache para nomes de serviços {id: nome}
   let barbersMap = {}; // Cache para nomes de barbeiros {id: nome}
   let currentEditingAppointmentId = null; // ID do agendamento sendo visto no modal
+  let isInitialLoad = true; // Flag para controlar o carregamento inicial
 
   /*
   ==================================
@@ -89,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (appt.status === "Pending") {
         pendingCount++;
       }
-      if (appt.status === "Confirmed") {
+      if (appt.status === "Agendado") {
         confirmedCount++;
       }
 
@@ -143,14 +164,8 @@ document.addEventListener("DOMContentLoaded", () => {
     detailService.textContent = servicesMap[appointment.serviceId] || "N/A";
     detailDatetime.textContent = formatFirebaseTimestamp(appointment.startTime);
 
-    // Mostra ou esconde botões com base no status
-    if (appointment.status === "Pending") {
-      confirmBtn.style.display = "inline-block";
-      rejectBtn.style.display = "inline-block";
-    } else {
-      confirmBtn.style.display = "none";
-      rejectBtn.style.display = "none";
-    }
+    // O botão de deletar sempre fica visível no modal
+    deleteBtn.style.display = "inline-block";
 
     modal.classList.remove("hidden");
   }
@@ -164,25 +179,18 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /**
-   * Atualiza o status de um agendamento no Firestore.
-   * @param {string} newStatus - O novo status ("Confirmed" ou "Rejected").
+   * Deleta um agendamento do Firestore.
    */
-  async function updateAppointmentStatus(newStatus) {
+  async function deleteAppointment() {
     if (!currentEditingAppointmentId) return;
 
     try {
       await db
         .collection("appointments")
         .doc(currentEditingAppointmentId)
-        .update({ status: newStatus });
+        .delete();
 
-      Swal.fire(
-        "Sucesso!",
-        `Agendamento ${
-          newStatus === "Confirmed" ? "confirmado" : "rejeitado"
-        }.`,
-        "success"
-      );
+      Swal.fire("Sucesso!", `Agendamento excluído com sucesso.`, "success");
       closeDetailsModal();
       // A tabela será atualizada automaticamente pelo onSnapshot
     } catch (error) {
@@ -200,7 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /**
    * Função principal que inicializa o dashboard.
    */
-  async function initializeDashboard() {
+  async function fetchAndListenAppointments() {
     try {
       // 1. Carrega serviços e barbeiros para o cache (mapas)
       const servicesSnapshot = await db.collection("services").get();
@@ -217,12 +225,48 @@ document.addEventListener("DOMContentLoaded", () => {
       db.collection("appointments")
         .orderBy("startTime", "desc") // Ordena pelos mais recentes primeiro
         .onSnapshot(
-          (querySnapshot) => {
-            allAppointments = [];
-            querySnapshot.forEach((doc) => {
-              allAppointments.push({ id: doc.id, ...doc.data() });
+          (snapshot) => {
+            snapshot.docChanges().forEach((change) => {
+              const appointmentData = {
+                id: change.doc.id,
+                ...change.doc.data(),
+              };
+
+              if (change.type === "added") {
+                // Se não for o carregamento inicial, mostra o alerta
+                if (!isInitialLoad) {
+                  newAppointmentAlert.classList.remove("hidden");
+                  // Adiciona o ID do novo agendamento ao botão "Visualizar"
+                  viewAlertDetailsBtn.setAttribute(
+                    "data-id",
+                    appointmentData.id
+                  );
+                }
+                allAppointments.unshift(appointmentData); // Adiciona no início
+              }
+
+              if (change.type === "modified") {
+                const index = allAppointments.findIndex(
+                  (appt) => appt.id === appointmentData.id
+                );
+                if (index > -1) allAppointments[index] = appointmentData;
+              }
+
+              if (change.type === "removed") {
+                allAppointments = allAppointments.filter(
+                  (appt) => appt.id !== appointmentData.id
+                );
+              }
             });
-            renderAppointments(); // Renderiza a tabela com os dados atualizados
+
+            // Ordena novamente para garantir a ordem correta
+            allAppointments.sort(
+              (a, b) => b.startTime.toDate() - a.startTime.toDate()
+            );
+            renderAppointments();
+
+            // Após o primeiro carregamento, desativa a flag
+            isInitialLoad = false;
           },
           (error) => {
             console.error("Erro ao buscar agendamentos: ", error);
@@ -250,18 +294,25 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Listener para o botão "Visualizar" do alerta
+  viewAlertDetailsBtn.addEventListener("click", () => {
+    const newAppointmentId = viewAlertDetailsBtn.getAttribute("data-id");
+    if (newAppointmentId) {
+      openDetailsModal(newAppointmentId);
+      newAppointmentAlert.classList.add("hidden"); // Esconde o alerta após clicar
+    }
+  });
+
   // Listeners do modal
   closeModalBtn.addEventListener("click", closeDetailsModal);
-  confirmBtn.addEventListener("click", () =>
-    updateAppointmentStatus("Confirmed")
-  );
-  rejectBtn.addEventListener("click", () =>
-    updateAppointmentStatus("Rejected")
-  );
+  deleteBtn.addEventListener("click", () => {
+    // A confirmação já está no outro listener, aqui apenas chamamos a função.
+    deleteAppointment();
+  });
 
-  // Inicializa tudo
-  initializeDashboard();
-});
+  // Busca os dados
+  fetchAndListenAppointments();
+}
 /*
   ==================================
   5. Sair do Dashboard
@@ -278,7 +329,12 @@ logoutBtn.addEventListener("click", () => {
   }).then((result) => {
     if (result.isConfirmed) {
       // Retorna a pagina de login
-      window.location.href = "../login.html";
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          window.location.href = "../login.html";
+        });
     }
   });
 });
