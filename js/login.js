@@ -65,7 +65,7 @@ formLogin.addEventListener("submit", function (event) {
 
       // Redireciona para o painel de controle após um breve atraso
       setTimeout(() => {
-        window.location.href = "pages/dashboard.html";
+        window.location.href = "pages/dashboard.html"; // Mantido, pois login.html está na raiz
       }, 500);
     })
     .catch((error) => {
