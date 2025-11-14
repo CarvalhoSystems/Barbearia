@@ -299,8 +299,10 @@ async function saveAppointment() {
   const appointmentData = {
     clientName: FORM_STATE.clientName,
     clientPhone: FORM_STATE.clientPhone,
-    serviceId: FORM_STATE.selectedService.id,
-    barberId: FORM_STATE.selectedBarber.id,
+    serviceId: FORM_STATE.selectedService.id, // Mantido para referência
+    serviceName: FORM_STATE.selectedService.name, // Adicionado para exibição
+    barberId: FORM_STATE.selectedBarber.id, // Mantido para referência
+    barberName: FORM_STATE.selectedBarber.name, // Adicionado para exibição
     startTime: firebase.firestore.Timestamp.fromDate(FORM_STATE.selectedTime),
     endTime: firebase.firestore.Timestamp.fromDate(
       new Date(
