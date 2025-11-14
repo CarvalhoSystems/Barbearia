@@ -123,9 +123,12 @@ async function loadAndRenderBarbers() {
       const barber = doc.data();
       const barberId = doc.id;
 
+      // Stringify the barber data and escape it for the HTML attribute
+      const barberDataString = JSON.stringify(barber).replace(/"/g, "&quot;");
+
       const html = `
                 <label class="barber-card service-card">
-                    <input type="radio" name="barber" value="${barberId}" required>
+                    <input type="radio" name="barber" value="${barberId}" data-barber="${barberDataString}" required>
                     <span>${barber.name} <small>Horário: ${barber.workingHoursStart}:00 - ${barber.workingHoursEnd}:00</small></span>
                 </label>
             `;

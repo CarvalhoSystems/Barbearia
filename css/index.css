@@ -119,6 +119,15 @@ header {
 
 /*
 ====================================
+3.3. Botão Hambúrguer (Mobile)
+====================================
+*/
+.nav-toggle {
+  display: none; /* Oculto por padrão */
+}
+
+/*
+====================================
 4. SEÇÃO HERO (BANNER PRINCIPAL)
 ====================================
 */
@@ -640,5 +649,64 @@ footer {
 
   .carousel-img {
     height: 250px; /* Reduz a altura da imagem para se adequar melhor à tela */
+  }
+
+  /* Estilos do Menu Hambúrguer */
+  .header-container {
+    padding: 0 15px;
+  }
+
+  .nav-toggle {
+    display: block;
+    background: transparent;
+    border: 0;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2001; /* Acima do menu */
+  }
+
+  .main-nav {
+    position: fixed;
+    top: 0;
+    right: -100%; /* Começa fora da tela */
+    width: 70%;
+    height: 100vh;
+    background-color: var(--background-dark);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: right 0.3s ease-in-out;
+    z-index: 2000;
+  }
+
+  .main-nav.active {
+    right: 0; /* Mostra o menu */
+  }
+
+  .main-nav ul {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .main-nav ul li {
+    margin: 20px 0;
+  }
+
+  .main-nav ul li a {
+    font-size: 1.2rem;
+  }
+
+  .social-links-desktop {
+    display: none; /* Oculta os links sociais do desktop */
+  }
+
+  .social-links-mobile {
+    display: flex; /* Mostra os links sociais no menu mobile */
+    margin-top: 30px;
   }
 }
