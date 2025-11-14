@@ -278,7 +278,7 @@ logoutBtn.addEventListener("click", () => {
   }).then((result) => {
     if (result.isConfirmed) {
       // Retorna a pagina de login
-      window.location.href = "/login.html";
+      window.location.href = "../login.html";
     }
   });
 });
